@@ -4,6 +4,7 @@ import {
   selectCurrentCourse,
   selectCurrentDate
 } from '../../redux/attendance/attendanceSelectors';
+import { selectStudentsForClass } from '../../redux/student/studentSelectors';
 
 import { instructorUpdateAttendanceStart } from '../../redux/attendance/attendanceActions';
 
@@ -26,7 +27,10 @@ const mapStateToProps = state => {
 
   return {
     currentCourse: selectCurrentCourse(state),
-    courseStudents: students
+    courseStudents: students,
+    studentList: selectStudentsForClass(selectCurrentCourse(state).courseId)(
+      state
+    )
   };
 };
 

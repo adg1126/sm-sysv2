@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -78,6 +79,11 @@ const Row = ({ student, setModalOpen, setStudentToUpdate }) => {
     <StyledTableRow>
       <StyledTableCell align='left'>{student.fullName}</StyledTableCell>
       <StyledTableCell align='center'>
+        {student.timestamp
+          ? `${moment(student.timestamp.toDate()).format('llll')}`
+          : 'N/A'}
+      </StyledTableCell>
+      <StyledTableCell align='center'>
         <DeleteStudentContainer />
         <EditStudentModalContainer />
         <Button
@@ -112,6 +118,7 @@ const StudentListTable = ({
         <TableHead>
           <TableRow>
             <StyledTableCell align='left'>Name</StyledTableCell>
+            <StyledTableCell align='center'>Signed in today at</StyledTableCell>
             <StyledTableCell align='center'>Tools</StyledTableCell>
           </TableRow>
         </TableHead>

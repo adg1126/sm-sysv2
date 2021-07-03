@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import moment from 'moment';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 
@@ -29,6 +30,7 @@ const useStyles = makeStyles(theme => ({
 const StudentList = ({
   currentCourse,
   courseStudents,
+  studentList,
   instructorUpdateAttendanceStart,
   handleSubmit,
   pristine,
@@ -48,7 +50,37 @@ const StudentList = ({
     }
   };
 
-  return courseStudents && courseStudents.length ? (
+  const formatStudents = () => {
+    if (
+      courseStudents &&
+      courseStudents.length &&
+      studentList &&
+      studentList.length
+    ) {
+      return _.compact(
+        _.flattenDeep(
+          courseStudents.map(cStudent =>
+            studentList.map(lStudent =>
+              cStudent.docId === lStudent.docId
+                ? {
+                    fullName: cStudent.fullName,
+                    docId: cStudent.docId,
+                    timeStamp: lStudent.timestamp
+                      ? `${moment(lStudent.timestamp.toDate()).format('llll')}`
+                      : 'N/A'
+                  }
+                : null
+            )
+          )
+        )
+      );
+    }
+  };
+
+  return courseStudents &&
+    courseStudents.length &&
+    studentList &&
+    studentList.length ? (
     <Grid container direction='column' style={{ padding: '0 1em' }}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid item>
@@ -68,37 +100,51 @@ const StudentList = ({
             ))}
           </Field>
         </Grid>
-        {courseStudents.map((student, i) => (
-          <Grid
-            key={i}
-            container
-            direction='row'
-            alignItems='center'
-            justify='space-between'
-          >
-            <Grid item>
-              <Typography variant='body1'>{student.fullName}</Typography>
-            </Grid>
-            <Grid item style={{ margin: '1em' }}>
-              <Field
-                classes={{ root: classes.formControl }}
-                name={`${student.docId}.status`}
-                component={SelectField}
-                label='Status'
-                markAllAs={markAllAs}
+        {formatStudents().map((student, i) => {
+          return (
+            <Grid
+              key={i}
+              container
+              direction='row'
+              alignItems='center'
+              justify='space-between'
+            >
+              <Grid item>
+                <Typography variant='body1'>{student.fullName}</Typography>
+              </Grid>
+              <Grid
+                item
+                container
+                direction='column'
+                style={{ width: '50%', margin: '0 1em' }}
               >
-                <MenuItem value=''>
-                  <em>None</em>
-                </MenuItem>
-                {['Present', 'Absent', 'Excused'].map((status, i) => (
-                  <MenuItem key={i} value={status}>
-                    {status}
-                  </MenuItem>
-                ))}
-              </Field>
+                <Grid item style={{ margin: '1em' }}>
+                  <Field
+                    classes={{ root: classes.formControl }}
+                    name={`${student.docId}.status`}
+                    component={SelectField}
+                    label='Status'
+                    markAllAs={markAllAs}
+                  >
+                    <MenuItem value=''>
+                      <em>None</em>
+                    </MenuItem>
+                    {['Present', 'Absent', 'Excused'].map((status, i) => (
+                      <MenuItem key={i} value={status}>
+                        {status}
+                      </MenuItem>
+                    ))}
+                  </Field>
+                </Grid>
+                <Grid item>
+                  <Typography variant='body1'>
+                    Last sign in: {student.timeStamp}
+                  </Typography>
+                </Grid>
+              </Grid>
             </Grid>
-          </Grid>
-        ))}
+          );
+        })}
         <Grid
           container
           direction='row'

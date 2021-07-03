@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     width: '100vw'
   },
   col: {
-    width: '80%',
+    width: '95%',
     [theme.breakpoints.down('sm')]: {
       width: '100%'
     }
@@ -95,10 +95,10 @@ const Attendance = ({ setCurrentDate, courseDates, status }) => {
         alignItems={matchesSM ? 'center' : 'flex-start'}
         spacing={4}
       >
-        <Grid item style={{ width: matchesSM ? '100%' : '60%' }}>
+        <Grid item style={{ width: matchesSM ? '100%' : '50%' }}>
           <ReusableCard {...schedulerCard} />
         </Grid>
-        <Grid style={{ width: matchesSM ? '95%' : '40%' }}>
+        <Grid style={{ width: matchesSM ? '95%' : '50%' }}>
           <ReusableCard {...takeAttendanceCard} />
         </Grid>
         <NotificationContainer status={status} />
