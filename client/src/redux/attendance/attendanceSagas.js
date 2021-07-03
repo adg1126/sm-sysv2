@@ -14,7 +14,6 @@ import {
 import {
   ADD_COURSE_SUCCESS,
   EDIT_COURSE_SUCCESS,
-  DELETE_COURSE_SUCCESS,
   FETCH_COURSES_SUCCESS
 } from '../courses/coursesActionTypes';
 import {
@@ -270,39 +269,6 @@ export function* onUpdateAttendanceInFirebase() {
     updateAttendanceInFirebase
   );
 }
-
-// export function* deleteAttendanceInFirebase() {
-//   const currentUser = yield select(selectCurrentUser);
-//   const attendanceRef = firestore.collection('attendance');
-//   const attendanceRefSnapshot = yield attendanceRef.get();
-//   const attendanceCourseList = yield select(
-//     selectAttendanceCourseListForPreview
-//   );
-//   const courseList = yield select(selectCourseList);
-
-//   if (
-//     currentUser &&
-//     !_.isEmpty(attendanceCourseList) &&
-//     !_.isEmpty(courseList)
-//   ) {
-//     try {
-//       const coursesToDelete = attendanceCourseList.filter(
-//         ({ courseId }) => !Object.keys(courseList).some(k => k === courseId)
-//       );
-
-//       if (coursesToDelete.length) {
-//         yield attendanceRefSnapshot.forEach(async doc => {
-//           await coursesToDelete.forEach(({ docId }) => {
-//             if (docId === doc.id && coursesToDelete.length) {
-//               doc.ref.delete();
-//             }
-//           });
-//         });
-//         yield put(deleteCourseAttendanceSuccess());
-//       }
-//     } catch (err) {}
-//   }
-// }
 
 export function* deleteAttendanceInFirebase() {
   const currentUser = yield select(selectCurrentUser);

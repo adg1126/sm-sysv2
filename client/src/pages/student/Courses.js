@@ -44,7 +44,7 @@ const CourseCard = ({
     classes = useStyles(),
     student = students.find(({ docId }) => docId === studentId),
     now = moment().toDate(),
-    allowAttendanceUpdateAfter = moment(endDate).subtract(10, 'minutes');
+    allowAttendanceUpdateAfter = moment(endDate).subtract(15, 'minutes');
 
   const updateStudent = useCallback(() => {
     if (
