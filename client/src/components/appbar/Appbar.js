@@ -1,89 +1,3 @@
-// import React from 'react';
-
-// import { makeStyles, useTheme } from '@material-ui/core/styles';
-// import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-// import AppBar from '@material-ui/core/AppBar';
-// import Toolbar from '@material-ui/core/Toolbar';
-// import IconButton from '@material-ui/core/IconButton';
-// import MenuItem from '@material-ui/core/MenuItem';
-// import Menu from '@material-ui/core/Menu';
-
-// import MenuIcon from '@material-ui/icons/Menu';
-// import AccountCircle from '@material-ui/icons/AccountCircle';
-
-// import DrawerContainer from '../../containers/appbar/DrawerContainer';
-
-// function ElevationScroll(props) {
-//   const { children } = props;
-
-//   const trigger = useScrollTrigger({
-//     disableHysteresis: true,
-//     threshold: 0
-//   });
-
-//   return React.cloneElement(children, {
-//     elevation: trigger ? 4 : 0
-//   });
-// }
-
-// const useStyles = makeStyles(theme => ({
-//   appBar: { width: '100vw', backgroundColor: 'white', left: 0 },
-//   menuButton: { marginLeft: theme.spacing(1) },
-//   toolbar: {
-//     ...theme.mixins.toolbar,
-//     marginBottom: '3em',
-//     [theme.breakpoints.down('md')]: {
-//       marginBottom: '4em'
-//     },
-//     [theme.breakpoints.down('xs')]: {
-//       marginBottom: '2em'
-//     }
-//   }
-// }));
-
-// const Appbar = ({ drawerOpen, currentUser, setDrawerOpen }) => {
-//   const classes = useStyles();
-//   const theme = useTheme();
-
-//   const [auth, setAuth] = React.useState(true);
-//   const [anchorEl, setAnchorEl] = React.useState(null);
-//   const open = Boolean(anchorEl);
-
-//   const handleChange = event => {
-//     setAuth(event.target.checked);
-//   };
-
-//   const handleMenu = event => {
-//     setAnchorEl(event.currentTarget);
-//   };
-
-//   const handleClose = () => {
-//     setAnchorEl(null);
-//   };
-
-//   // console.log(currentUser);
-//   return (
-//     <>
-//       <ElevationScroll>
-//         <AppBar position='fixed' className={classes.appBar}>
-//           <Toolbar style={{ width: '100vw' }} disableGutters>
-//             <IconButton
-//               className={classes.menuButton}
-//               onClick={() => setDrawerOpen(!drawerOpen)}
-//             >
-//               <MenuIcon />
-//             </IconButton>
-//             <DrawerContainer />
-//           </Toolbar>
-//         </AppBar>
-//       </ElevationScroll>
-//       <div className={classes.toolbar} />
-//     </>
-//   );
-// };
-
-// export default Appbar;
-
 import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -234,7 +148,7 @@ const Appbar = ({ drawerOpen, currentUser, setDrawerOpen, signOutStart }) => {
                       {userModalContent.email}
                     </Typography>
                   </Grid>
-                  <Divider />
+                  <Divider style={{ width: '200px', margin: '1em 0' }} />
                   <Grid item className={classes.gridItem}>
                     <Button
                       onClick={signOutStart}
