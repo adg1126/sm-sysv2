@@ -201,16 +201,22 @@ const Courses = ({
         <Grid item className={classes.header}>
           <Typography variant='h4'>Course List</Typography>
         </Grid>
-        {getCourseAttendanceToday().map((course, i) => (
-          <Grid item key={i}>
-            <CourseCard
-              course={course}
-              studentId={student.id}
-              studentTimestamp={student.timestamp.toDate()}
-              studentUpdateAttendanceStart={studentUpdateAttendanceStart}
-            />
+        {getCourseAttendanceToday().length ? (
+          getCourseAttendanceToday().map((course, i) => (
+            <Grid item key={i}>
+              <CourseCard
+                course={course}
+                studentId={student.id}
+                studentTimestamp={student.timestamp.toDate()}
+                studentUpdateAttendanceStart={studentUpdateAttendanceStart}
+              />
+            </Grid>
+          ))
+        ) : (
+          <Grid item>
+            <Typography variant='h6'>You have no classes to day.</Typography>
           </Grid>
-        ))}
+        )}
       </Grid>
       <NotificationContainer status={status} />
     </Grid>
