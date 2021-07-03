@@ -48,8 +48,8 @@ const useStyles = makeStyles(theme => ({
     fontSize: '1em',
     padding: '0.4em 2em',
     [theme.breakpoints.down('xs')]: {
-      padding: '0.8em 1.4em',
-      width: '85%'
+      padding: '0.6em 1.2em',
+      width: '100%'
     }
   },
   avatar: { backgroundColor: theme.palette.primary.main },
