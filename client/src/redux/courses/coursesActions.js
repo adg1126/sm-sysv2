@@ -1,4 +1,6 @@
 import {
+  FETCH_ALL_COURSES_START,
+  FETCH_ALL_COURSES_SUCCESS,
   FETCH_COURSES_START,
   FETCH_COURSES_SUCCESS,
   FETCH_COURSES_FAILURE,
@@ -13,6 +15,15 @@ import {
   EDIT_COURSE_FAILURE,
   SET_CURRENT_COURSE
 } from './coursesActionTypes';
+
+export const fetchAllCoursesStart = () => ({
+  type: FETCH_ALL_COURSES_START
+});
+
+export const fetchAllCoursesSuccess = coursesMap => ({
+  type: FETCH_ALL_COURSES_SUCCESS,
+  payload: coursesMap
+});
 
 export const fetchCoursesStart = () => ({
   type: FETCH_COURSES_START

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {
   FETCH_COURSES_START,
+  FETCH_ALL_COURSES_SUCCESS,
   FETCH_COURSES_SUCCESS,
   FETCH_COURSES_FAILURE,
   ADD_COURSE_SUCCESS,
@@ -13,6 +14,7 @@ import {
 } from './coursesActionTypes';
 
 const INITIAL_STATE = {
+  allCourses: {},
   courseList: [],
   currentCourse: null,
   isFetching: false,
@@ -34,6 +36,11 @@ const coursesReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isFetching: false,
         errMessage: action.payload
+      };
+    case FETCH_ALL_COURSES_SUCCESS:
+      return {
+        ...state,
+        allCourses: action.payload
       };
     case ADD_COURSE_SUCCESS:
       return {

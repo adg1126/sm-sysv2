@@ -6,7 +6,10 @@ import {
 } from '../redux/user/userSelectors';
 
 import { checkUserSession } from '../redux/user/userActions';
-import { fetchCoursesStart } from '../redux/courses/coursesActions';
+import {
+  fetchCoursesStart,
+  fetchAllCoursesStart
+} from '../redux/courses/coursesActions';
 import { fetchStudentsStart } from '../redux/student/studentActions';
 import { fetchAttendanceStart } from '../redux/attendance/attendanceActions';
 
@@ -19,6 +22,7 @@ const mapStateToProps = createStructuredSelector({
 
 export default connect(mapStateToProps, {
   checkUserSession,
+  fetchAllCoursesStart,
   fetchCoursesStart,
   fetchStudentsStart,
   fetchAttendanceStart

@@ -36,8 +36,8 @@ import {
 
 import { selectCurrentUser } from '../user/userSelectors';
 import {
-  selectCourseList,
-  selectCourseListForPreview
+  selectCourseListForPreview,
+  selectAllCoursesForPreview
 } from '../courses/coursesSelectors';
 import { selectStudentListForPreview } from '../student/studentSelectors';
 import {
@@ -271,6 +271,39 @@ export function* onUpdateAttendanceInFirebase() {
   );
 }
 
+// export function* deleteAttendanceInFirebase() {
+//   const currentUser = yield select(selectCurrentUser);
+//   const attendanceRef = firestore.collection('attendance');
+//   const attendanceRefSnapshot = yield attendanceRef.get();
+//   const attendanceCourseList = yield select(
+//     selectAttendanceCourseListForPreview
+//   );
+//   const courseList = yield select(selectCourseList);
+
+//   if (
+//     currentUser &&
+//     !_.isEmpty(attendanceCourseList) &&
+//     !_.isEmpty(courseList)
+//   ) {
+//     try {
+//       const coursesToDelete = attendanceCourseList.filter(
+//         ({ courseId }) => !Object.keys(courseList).some(k => k === courseId)
+//       );
+
+//       if (coursesToDelete.length) {
+//         yield attendanceRefSnapshot.forEach(async doc => {
+//           await coursesToDelete.forEach(({ docId }) => {
+//             if (docId === doc.id && coursesToDelete.length) {
+//               doc.ref.delete();
+//             }
+//           });
+//         });
+//         yield put(deleteCourseAttendanceSuccess());
+//       }
+//     } catch (err) {}
+//   }
+// }
+
 export function* deleteAttendanceInFirebase() {
   const currentUser = yield select(selectCurrentUser);
   const attendanceRef = firestore.collection('attendance');
@@ -278,7 +311,7 @@ export function* deleteAttendanceInFirebase() {
   const attendanceCourseList = yield select(
     selectAttendanceCourseListForPreview
   );
-  const courseList = yield select(selectCourseList);
+  const courseList = yield select(selectAllCoursesForPreview);
 
   if (
     currentUser &&
@@ -292,10 +325,10 @@ export function* deleteAttendanceInFirebase() {
 
       if (coursesToDelete.length) {
         yield attendanceRefSnapshot.forEach(async doc => {
-          await coursesToDelete.forEach(({ docId }) => {
-            if (docId === doc.id && coursesToDelete.length) {
-              doc.ref.delete();
-            }
+          const { courseId } = doc.data();
+
+          courseList.forEach(({ docId }) => {
+            if (docId !== courseId) doc.ref.delete();
           });
         });
         yield put(deleteCourseAttendanceSuccess());
@@ -306,7 +339,7 @@ export function* deleteAttendanceInFirebase() {
 
 export function* onDeleteAttendanceInFirebase() {
   yield takeLatest(
-    [FETCH_COURSES_SUCCESS, FETCH_ATTENDANCE_SUCCESS, DELETE_COURSE_SUCCESS],
+    [FETCH_COURSES_SUCCESS, FETCH_ATTENDANCE_SUCCESS],
     deleteAttendanceInFirebase
   );
 }

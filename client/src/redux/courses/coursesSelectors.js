@@ -3,6 +3,17 @@ import _ from 'lodash';
 
 const selectCourses = state => state.courses;
 
+export const selecAllCourses = createSelector(
+  [selectCourses],
+  courses => courses.allCourses
+);
+
+export const selectAllCoursesForPreview = createSelector(
+  [selecAllCourses],
+  allCourses =>
+    allCourses ? Object.keys(allCourses).map(key => allCourses[key]) : []
+);
+
 export const selectCourseList = createSelector(
   [selectCourses],
   courses => courses.courseList

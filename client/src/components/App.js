@@ -35,6 +35,7 @@ class App extends Component {
 
   componentDidUpdate() {
     if (this.props.currentUser) {
+      this.props.fetchAllCoursesStart();
       this.props.fetchCoursesStart();
       this.props.fetchStudentsStart();
       this.props.fetchAttendanceStart();

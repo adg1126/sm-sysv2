@@ -2,12 +2,14 @@ import { takeLatest, call, put, all, select } from 'redux-saga/effects';
 import _ from 'lodash';
 import history from '../../history';
 import {
+  FETCH_ALL_COURSES_START,
   FETCH_COURSES_START,
   ADD_COURSE_START,
   DELETE_COURSE_START,
   EDIT_COURSE_START
 } from './coursesActionTypes';
 import {
+  fetchAllCoursesSuccess,
   fetchCoursesSuccesss,
   fetchCoursesFailure,
   addCourseSuccess,
@@ -21,6 +23,23 @@ import { firestore } from '../../config/firebase';
 import firebase from 'firebase/app';
 import { convertCoursesSnapshotToMap } from './coursesUtils';
 import { selectCurrentUser } from '../user/userSelectors';
+
+export function* fetchAllCoursesAsync() {
+  const currentUser = yield select(selectCurrentUser);
+  const coursesRef = firestore.collection('courses');
+
+  if (currentUser.userType === 'Instructor') {
+    try {
+      const snapshot = yield coursesRef.get();
+      const coursesRefMap = yield call(convertCoursesSnapshotToMap, snapshot);
+      yield put(fetchAllCoursesSuccess(coursesRefMap));
+    } catch (err) {}
+  }
+}
+
+export function* fetchAllCoursesStart() {
+  yield takeLatest(FETCH_ALL_COURSES_START, fetchAllCoursesAsync);
+}
 
 export function* fetchCoursesAsync() {
   const currentUser = yield select(selectCurrentUser);
@@ -168,6 +187,7 @@ export function* onCourseEdit() {
 
 export function* coursesSagas() {
   yield all([
+    call(fetchAllCoursesStart),
     call(fetchCoursesStart),
     call(onCourseAdd),
     call(onCourseDelete),
