@@ -100,11 +100,13 @@ function checkUserInFirebase(docId, { idNumber, fullName, email }) {
     });
 }
 
-firestore
-  .collection('students')
-  .get()
-  .then(query => {
-    query.forEach(doc => {
-      checkUserInFirebase(doc.id, doc.data());
+setInterval(() => {
+  firestore
+    .collection('students')
+    .get()
+    .then(query => {
+      query.forEach(doc => {
+        checkUserInFirebase(doc.id, doc.data());
+      });
     });
-  });
+});
