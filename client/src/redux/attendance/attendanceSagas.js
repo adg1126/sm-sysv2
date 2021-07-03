@@ -13,6 +13,7 @@ import {
 } from './attendanceActionTypes';
 import {
   ADD_COURSE_SUCCESS,
+  DELETE_COURSE_START,
   EDIT_COURSE_SUCCESS,
   FETCH_COURSES_SUCCESS
 } from '../courses/coursesActionTypes';
@@ -142,7 +143,9 @@ export function* onAddAttendanceInFireBase() {
 
 export function* updateAttendanceInFirebase() {
   const currentUser = yield select(selectCurrentUser);
-  const attendanceRef = firestore.collection('attendance');
+  const attendanceRef = firestore
+    .collection('attendance')
+    .where('instructorId', '==', currentUser.id);
   const courseList = yield select(selectCourseListForPreview);
   const studentList = yield select(selectStudentListForPreview);
   const attendanceCourseList = yield select(
@@ -304,10 +307,7 @@ export function* deleteAttendanceInFirebase() {
 }
 
 export function* onDeleteAttendanceInFirebase() {
-  yield takeLatest(
-    [FETCH_COURSES_SUCCESS, FETCH_ATTENDANCE_SUCCESS],
-    deleteAttendanceInFirebase
-  );
+  yield takeLatest([DELETE_COURSE_START], deleteAttendanceInFirebase);
 }
 
 export function* updateStudentAttendanceInFirebase({ key: courseDocId }) {

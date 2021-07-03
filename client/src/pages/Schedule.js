@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import _ from 'lodash';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -24,8 +25,8 @@ const useStyles = makeStyles(theme => ({
 const Schedule = ({ courseList }) => {
   const classes = useStyles();
 
-  const startDate = moment().day(0).toDate(),
-    endDate = moment().day(6).toDate();
+  const startDate = moment().day(0).startOf('day').toDate(),
+    endDate = moment().day(6).endOf('day').toDate();
 
   const getDatesForWeek = () => {
     let dates = [];
@@ -45,7 +46,7 @@ const Schedule = ({ courseList }) => {
     content: (
       <Paper>
         <Scheduler data={getDatesForWeek()} height={660}>
-          <WeekView startDayHour={6} endDayHour={23} />
+          <WeekView startDayHour={7} endDayHour={18} />
           <Appointments />
         </Scheduler>
       </Paper>
