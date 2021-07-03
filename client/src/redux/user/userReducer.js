@@ -20,7 +20,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentUser: action.payload,
-        status: { success: 'Successfully signed in', err: '' }
+        status: { success: '', err: '' }
       };
     case SIGN_OUT_SUCCESS:
       return { ...state, currentUser: null, errMessage: null };
