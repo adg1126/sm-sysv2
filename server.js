@@ -109,4 +109,4 @@ setInterval(() => {
         checkUserInFirebase(doc.id, doc.data());
       });
     });
-}, 3000);
+}, 1000 * 60);
